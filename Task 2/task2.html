@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab 6 : Firebase</title>
+</head>
+<body>
+    
+    <h2>Simple Input</h2>
+
+    <div class="row">
+        <h4>Enter ID</h4>
+        <input type="text" id="inputID">
+        <h4>Enter Name</h4>
+        <input type="text" id="inputName">
+        <h4>Enter Age</h4>
+        <input type="number" id="inputAge">
+        <br>
+        <br>
+        <button id="btnInsert">Insert Data</button>
+    </div>
+
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+        // TODO: Add SDKs for Firebase products that you want to use
+        // https://firebase.google.com/docs/web/setup#available-libraries
+
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyAg9iqUE0H0YA8WZFXhWVwDVRa6qw_kURw",
+            authDomain: "csm3103-lab6-399fb.firebaseapp.com",
+            databaseURL: "https://csm3103-lab6-399fb-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "csm3103-lab6-399fb",
+            storageBucket: "csm3103-lab6-399fb.appspot.com",
+            messagingSenderId: "19925079351",
+            appId: "1:19925079351:web:56f3bcb737a683cb2df6b2"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+
+        // Import the selected method from google related to Firebase-Database
+        import {getDatabase, set, get, remove, update, ref, child}
+        from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+
+        // Create the holder for the database using the imported method getDatabase()
+        const db = getDatabase();
+
+        // Retrieve the object from html into the JavaScript
+        var inputID = document.getElementById('inputID');
+        var inputName = document.getElementById('inputName');
+        var inputAge = document.getElementById('inputAge');
+
+        var btnInsert = document.getElementById('btnInsert');
+
+        // Add a listener for a click event on btnInsert
+        btnInsert.addEventListener("click", funInsertData);
+
+        // Add the function funInsertData
+        function funInsertData() {
+            set(ref(db, "People/" + inputID.value), {
+                ID: inputID.value,
+                name: inputName.value,
+                age: inputAge.value
+            })
+            .then(()=>{
+                alert("Data added successfully!");
+            })
+            .catch((error)=>{
+                alert(error);
+            });
+        }
+    </script>
+    
+</body>
+</html>
